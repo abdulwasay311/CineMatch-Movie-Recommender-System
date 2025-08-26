@@ -5,6 +5,7 @@ import requests
 import os
 import ast
 import base64
+import gdown
 
 def add_bg_from_local(image_file):
     with open(image_file, "rb") as f:
@@ -32,14 +33,22 @@ API_BASE_URL = "https://api.themoviedb.org/3/movie/"
 
 st.set_page_config(layout="wide")
 
+# Replace these with your actual file IDs
+MOVIE_DICT_ID = "1WPVZi5ml3R40TchTj3SVEOyabSYJHzlz"
+SIMILARITY_ID = "1ScPtUm3YeEkF0qjjlrt8LqHOif7luTok"
 
-try:
-    movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
-    movies = pd.DataFrame(movies_dict)
-    similarity = pickle.load(open('similarity.pkl', 'rb'))
-except FileNotFoundError:
-    st.error("Error: movie_dict.pkl or similarity.pkl not found.")
-    st.stop()
+def drive_url(file_id):
+    return f"https://drive.google.com/uc?id={file_id}"
+    
+if not os.path.exists("movie_dict.pkl"):
+    gdown.download(drive_url(MOVIE_DICT_ID), "movie_dict.pkl", quiet=False)
+
+if not os.path.exists("similarity.pkl"):
+    gdown.download(drive_url(SIMILARITY_ID), "similarity.pkl", quiet=False)
+
+movies_dict = pickle.load(open("movie_dict.pkl", "rb"))
+movies = pd.DataFrame(movies_dict)
+similarity = pickle.load(open("similarity.pkl", "rb"))
 
 
 def fetch_movie_details(movie_id):
@@ -140,3 +149,4 @@ if st.button('Show Recommendations'):
 
 
                 st.markdown("---")
+
