@@ -21,7 +21,7 @@ def add_bg_from_local(image_file):
     """
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
-add_bg_from_local("cinema.jpg")
+add_bg_from_local("backgroundimage.jpg")
 
 
 st.markdown("<h1 style='color:red; text-align:center;'> CineMatch</h1>", unsafe_allow_html=True)
@@ -137,5 +137,6 @@ if st.button('Show Recommendations'):
 
                         if movie['trailer']:
                             st.markdown(f"[▶ Watch Trailer]({movie['trailer']})")
+
 
                 st.markdown("---")
